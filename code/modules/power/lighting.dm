@@ -38,7 +38,7 @@
 
 	update_icon()
 
-/obj/machinery/light_construct/update_icon()
+/obj/machinery/light_construct/on_update_icon()
 	switch(stage)
 		if(1) icon_state = "tube-construct-stage1"
 		if(2) icon_state = "tube-construct-stage2"
@@ -123,7 +123,7 @@
 	fixture_type = /obj/machinery/light/small
 	sheets_refunded = 1
 
-/obj/machinery/light_construct/small/update_icon()
+/obj/machinery/light_construct/small/on_update_icon()
 	switch(stage)
 		if(1) icon_state = "bulb-construct-stage1"
 		if(2) icon_state = "bulb-construct-stage2"
@@ -241,8 +241,8 @@
 	QDEL_NULL(s)
 	. = ..()
 
-/obj/machinery/light/update_icon(trigger = 1)
-	overlays.Cut()
+/obj/machinery/light/on_update_icon(trigger = 1)
+	ClearOverlays()
 	if(pixel_shift)
 		switch(dir)
 			if(NORTH)
@@ -298,7 +298,7 @@
 		set_light(0)
 
 	if(TO)
-		overlays += TO
+		AddOverlays(TO)
 
 	change_power_consumption((light_outer_range * light_max_bright) * LIGHTING_POWER_FACTOR, POWER_USE_ACTIVE)
 
@@ -822,8 +822,8 @@
 			. += "\nIt's broken."
 
 // update the icon state and description of the light
-/obj/item/light/update_icon()
-	overlays.Cut()
+/obj/item/light/on_update_icon()
+	ClearOverlays()
 	switch(status)
 		if(LIGHT_OK)
 			icon_state = base_state
@@ -834,7 +834,7 @@
 	if(tone_overlay)
 		var/image/TO = overlay_image(icon, "[icon_state]-over", flags=RESET_COLOR)
 		TO.color = b_color
-		overlays += TO
+		AddOverlays(TO)
 
 // attack bulb/tube with object
 // if a syringe, can inject plasma to make it explode
